@@ -18,18 +18,19 @@ const { generateFakeData } = require('../faker2');
 // #1 - CORS : 외부 도메인에서 API호출 시 보안을 해주는 미들웨어
 // #2 - JSON.parse : JSON형식으로 전달오기때문에 파싱을 통해서 req.body안에 정보를 넣어준다.
 
-// mongoDB -> Connect your application -> 코드 가져오기.
-const MONGO_URI = 'mongodb+srv://admin:OMqP7ONdAgdqHFoJ@mongodbtutorial.gzz1d.mongodb.net/BlogService?retryWrites=true&w=majority'
-
 // mongoose에 mongoDB 연결
 const server = async() => {
     try {
+        // mongoDB -> Connect your application -> 코드 가져오기.
+        // .env에 넣은 URI 가져오기.
+        const { MONGO_URI } = process.env;
+        if (!MONGO_URI) throw new Error("MONGO_URI is required!");
+
         await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
         
         // mongoose가 어떻게 mongoDB 요청하는지 확인 가능
         // mongoose.set('debug', true);
         
-
         console.log('mongdb connected');
 
         // 미들웨어
