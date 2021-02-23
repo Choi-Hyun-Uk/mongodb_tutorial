@@ -23,8 +23,9 @@ const server = async() => {
     try {
         // mongoDB -> Connect your application -> 코드 가져오기.
         // .env에 넣은 URI 가져오기.
-        const { MONGO_URI } = process.env;
+        const { MONGO_URI, PORT } = process.env;
         if (!MONGO_URI) throw new Error("MONGO_URI is required!");
+        if (!PORT) throw new Error("PORT is required!");
 
         await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
         
@@ -41,8 +42,8 @@ const server = async() => {
 
         // 첫번째 인자: backend port number
         // 서버가 켜지는 시점.
-        app.listen(3050, async () => {
-            console.log('server listening on port 3050');
+        app.listen(PORT, async () => {
+            console.log(`server listening on port ${PORT}`);
             // await generateFakeData(10, 1, 10);
         });
 
